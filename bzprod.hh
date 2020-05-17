@@ -21,12 +21,12 @@ namespace benzaiten
         static constexpr bool zero2 =
             std::is_same<typename E2::template deriv_type<Wrt, 1>, ZeroFn>::value;
 
-        using type = typename std::conditional<zero1,
-            typename FnProd<E1, typename E2::template deriv_type<Wrt, 1>>::template deriv_type<Wrt, Order - 1>,
-            typename std::conditional<zero2,
-                typename FnProd<typename E1::template deriv_type<Wrt, 1>, E2>::template deriv_type<Wrt, Order - 1>,
-                typename FnSum<FnProd<typename E1::template deriv_type<Wrt, 1>, E2>,
-                    FnProd<E1, typename E2::template deriv_type<Wrt, 1>>>::template deriv_type<Wrt, Order - 1>>::type>::type;
+        using type1 = FnProd<E1, typename E2::template deriv_type<Wrt, 1>>;
+        using type2 = FnProd<typename E1::template deriv_type<Wrt, 1>, E2>;
+
+        using type = typename std::conditional<zero1, typename type1::template deriv_type<Wrt, Order - 1>,
+            typename std::conditional<zero2, typename type2::template deriv_type<Wrt, Order - 1>,
+                typename FnSum<type2, type1>::template deriv_type<Wrt, Order - 1>>::type>::type;
     };
 
     template <typename Wrt, typename E1, typename E2>
@@ -72,6 +72,20 @@ namespace benzaiten
         const FnExpression<E2>& fn2)
     {
         return FnProd<E1, E2>(static_cast<const E1&>(fn1),
+            static_cast<const E2&>(fn2));
+    }
+
+    template <typename E1>
+    FnProd<E1, Constant> operator*(const FnExpression<E1>& fn1, double cnst)
+    {
+        return FnProd<E1, Constant>(static_cast<const E1&>(fn1),
+            Constant(cnst));
+    }
+
+    template <typename E2>
+    FnProd<Constant, E2> operator*(double cnst, const FnExpression<E2>& fn2)
+    {
+        return FnProd<Constant, E2>(Constant(cnst),
             static_cast<const E2&>(fn2));
     }
 

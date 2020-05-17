@@ -11,8 +11,6 @@ namespace benzaiten
     template <char Id, typename... Args>
     struct Fn;
 
-    struct ZeroFn;
-
     template <typename Wrt, size_t Order, typename Arg>
     struct IncrementDerivative
     {
@@ -81,47 +79,6 @@ namespace benzaiten
                     print_args<Rest...>(os);
                 }
             }
-    };
-
-    struct Constant : public FnExpression<Constant>
-    {
-        template <typename Wrt, size_t Order>
-        using deriv_type = ZeroFn;
-
-        Constant(double value) : value(value) { }
-
-        template <auto Wrt, size_t Order = 1>
-        deriv_type<decltype(Wrt), Order> derivative() const
-        {
-            return ZeroFn();
-        }
-
-        friend std::ostream& operator<<(std::ostream& os, const Constant& cnst)
-        {
-            os << cnst.value;
-            return os;
-        }
-
-        private:
-            double value;
-    };
-
-    struct ZeroFn : public FnExpression<ZeroFn>
-    {
-        template <typename Wrt, size_t Order>
-        using deriv_type = ZeroFn;
-
-        template <auto Wrt, size_t Order = 1>
-        deriv_type<decltype(Wrt), Order> derivative() const
-        {
-            return *this;
-        }
-
-        friend std::ostream& operator<<(std::ostream& os, const ZeroFn& fn)
-        {
-            os << "0";
-            return os;
-        }
     };
 
     template <char Id, auto... Args>

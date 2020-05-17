@@ -10,6 +10,10 @@
 #include "bzneg.hh"
 #include "bzprod.hh"
 #include "bzquo.hh"
+#include "bzpow.hh"
+#include "bzlog.hh"
+#include "bzexp.hh"
+#include "bztrig.hh"
 
 #endif      // _BENZAITEN_HH_
 

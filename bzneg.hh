@@ -45,13 +45,13 @@ namespace benzaiten
         double getValue() const { return -fn.getValue(); }
 
         private:
-            E const& fn;
+            E fn;
     };
 
     template <typename E>
     FnNeg<E> operator-(FnExpression<E> const& fn)
     {
-        return FnNeg<E>(*static_cast<const E*>(&fn));
+        return FnNeg<E>(static_cast<const E&>(fn));
     }
 
     ZeroFn operator-(ZeroFn const& zero)

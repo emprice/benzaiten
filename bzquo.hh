@@ -75,6 +75,18 @@ namespace benzaiten
             static_cast<const E2&>(fn2));
     }
 
+    template <typename E1>
+    FnQuo<E1, Constant> operator/(const FnExpression<E1>& fn1, double cnst)
+    {
+        return FnQuo<E1, Constant>(static_cast<const E1&>(fn1), Constant(cnst));
+    }
+
+    template <typename E2>
+    FnQuo<Constant, E2> operator/(double cnst, const FnExpression<E2>& fn2)
+    {
+        return FnQuo<Constant, E2>(Constant(cnst), static_cast<const E2&>(fn2));
+    }
+
     template <typename E2>
     ZeroFn operator/(const ZeroFn& zero, const FnExpression<E2>& fn2)
     {

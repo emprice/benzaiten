@@ -77,6 +77,23 @@ namespace benzaiten
     {
         return -static_cast<const E2&>(fn2);
     }
+
+    ZeroFn operator-(const ZeroFn& zero1, const ZeroFn& zero2)
+    {
+        return zero1;
+    }
+
+    template <typename E1>
+    FnDiff<E1, Constant> operator-(const FnExpression<E1>& fn1, double cnst)
+    {
+        return FnDiff<E1, Constant>(static_cast<const E1&>(fn1), Constant(cnst));
+    }
+
+    template <typename E2>
+    FnDiff<Constant, E2> operator-(double cnst, const FnExpression<E2>& fn2)
+    {
+        return FnDiff<Constant, E2>(Constant(cnst), static_cast<const E2&>(fn2));
+    }
 }
 
 #endif      // _BZDIFF_HH_

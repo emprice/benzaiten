@@ -30,10 +30,18 @@ namespace benzaiten
 
         FnNeg(E const& fn) : fn(fn) { }
 
-        template <auto Wrt, size_t Order = 1>
-        deriv_type<decltype(Wrt), Order> derivative() const
+        template <typename Wrt, size_t Order = 1>
+        deriv_type<Wrt, Order> derivative() const
         {
             return -fn.template derivative<Wrt, Order>();
+        }
+
+        template <typename Target>
+        FnNeg<E>& substitute(double val)
+        {
+            fn.template substitute<Target>(val);
+
+            return *this;
         }
 
         friend std::ostream& operator<<(std::ostream& os, const FnNeg& sum)

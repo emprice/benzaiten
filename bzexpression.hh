@@ -17,11 +17,14 @@ namespace benzaiten
 
         double getValue() const { return 0; }
 
-        template <auto Wrt, size_t Order = 1>
-        deriv_type<decltype(Wrt), Order> derivative() const
+        template <typename Wrt, size_t Order = 1>
+        deriv_type<Wrt, Order> derivative() const
         {
             return *this;
         }
+
+        template <typename Target>
+        ZeroFn& substitute(double val) { return *this; }
 
         friend std::ostream& operator<<(std::ostream& os, const ZeroFn& fn)
         {
@@ -47,11 +50,14 @@ namespace benzaiten
 
         double getValue() const { return value; }
 
-        template <auto Wrt, size_t Order = 1>
-        deriv_type<decltype(Wrt), Order> derivative() const
+        template <typename Wrt, size_t Order = 1>
+        deriv_type<Wrt, Order> derivative() const
         {
             return ZeroFn();
         }
+
+        template <typename Target>
+        Constant& substitute(double val) { return *this; }
 
         friend std::ostream& operator<<(std::ostream& os, const Constant& cnst)
         {

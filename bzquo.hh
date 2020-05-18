@@ -43,8 +43,8 @@ namespace benzaiten
 
         FnQuo(const E1& fn1, const E2& fn2) : fn1(fn1), fn2(fn2) { }
 
-        template <auto Wrt, size_t Order = 1>
-        deriv_type<decltype(Wrt), Order> derivative() const
+        template <typename Wrt, size_t Order = 1>
+        deriv_type<Wrt, Order> derivative() const
         {
             if constexpr (Order == 0) return *this;
             else
@@ -52,6 +52,15 @@ namespace benzaiten
                 return (fn1.template derivative<Wrt, 1>() / fn2 -
                         fn1 * fn2.template derivative<Wrt, 1>() / (fn2 * fn2)).template derivative<Wrt, Order - 1>();
             }
+        }
+
+        template <typename Target>
+        FnQuo<E1, E2>& substitute(double val)
+        {
+            fn1.template substitute<Target>(val);
+            fn2.template substitute<Target>(val);
+
+            return *this;
         }
 
         friend std::ostream& operator<<(std::ostream& os, const FnQuo& quo)

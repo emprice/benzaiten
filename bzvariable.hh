@@ -29,19 +29,35 @@ namespace benzaiten
         static constexpr char id = Id;
         static constexpr size_t order = Order;
 
+        template <typename Wrt, size_t Ord = 1>
+        deriv_type<Wrt, Ord> derivative() const
+        {
+            if constexpr (Ord == 0) return *this;
+            else if constexpr ((Ord == 1) && (Wrt::id == Id)) return Constant(1);
+            else return ZeroFn();
+        }
+
+        template <typename Target>
+        Variable<Id, Order>& substitute(double val)
+        {
+            if constexpr (std::is_same<Target, Variable<Id, Order>>::value)
+            {
+                value = val;
+            }
+
+            return *this;
+        }
+
+        double getValue() const { return value; }
+
         friend std::ostream& operator<<(std::ostream& os, const Variable &var)
         {
             os << Id;
             return os;
         }
 
-        template <auto Wrt, size_t Ord = 1>
-        deriv_type<decltype(Wrt), Ord> derivative() const
-        {
-            if constexpr (Ord == 0) return *this;
-            else if constexpr ((Ord == 1) && (decltype(Wrt)::id == Id)) return Constant(1);
-            else return ZeroFn();
-        }
+        private:
+            double value;
     };
 }
 

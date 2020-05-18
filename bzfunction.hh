@@ -54,11 +54,24 @@ namespace benzaiten
         template <typename Wrt, size_t Order>
         using deriv_type = FnDerivativeType<Id, Wrt, Order, Args...>::type;
 
-        template <auto Wrt, size_t Order = 1>
-        deriv_type<decltype(Wrt), Order> derivative() const
+        template <typename Wrt, size_t Order = 1>
+        deriv_type<Wrt, Order> derivative() const
         {
-            return deriv_type<decltype(Wrt), Order>();
+            return deriv_type<Wrt, Order>();
         }
+
+        template <typename Target>
+        Fn<Id, Args...>& substitute(double val)
+        {
+            if constexpr (std::is_same<Target, Fn<Id, Args...>>::value)
+            {
+                value = val;
+            }
+
+            return *this;
+        }
+
+        double getValue() const { return value; }
 
         friend std::ostream& operator<<(std::ostream& os, const Fn& fn)
         {
@@ -69,6 +82,8 @@ namespace benzaiten
         }
 
         private:
+            double value;
+
             template <typename First, typename... Rest>
             static void print_args(std::ostream& os)
             {
@@ -81,10 +96,10 @@ namespace benzaiten
             }
     };
 
-    template <char Id, auto... Args>
-    Fn<Id, decltype(Args)...> Function()
+    template <char Id, typename... Args>
+    Fn<Id, Args...> Function()
     {
-        return Fn<Id, decltype(Args)...>();
+        return Fn<Id, Args...>();
     }
 }
 

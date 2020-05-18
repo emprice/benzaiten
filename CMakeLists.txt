@@ -5,5 +5,6 @@ project(benzaiten)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(bzexplore bzexplore.cc)
+add_executable(bzbench bzbench.cc)
 
 # vim: set ft=cmake:

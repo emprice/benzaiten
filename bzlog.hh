@@ -38,14 +38,22 @@ namespace benzaiten
 
         FnLog(const E& fn) : fn(fn) { }
 
-        template <auto Wrt, size_t Order = 1>
-        deriv_type<decltype(Wrt), Order> derivative() const
+        template <typename Wrt, size_t Order = 1>
+        deriv_type<Wrt, Order> derivative() const
         {
             if constexpr (Order == 0) return *this;
             else
             {
                 return (fn.template derivative<Wrt, 1>() / fn).template derivative<Wrt, Order - 1>();
             }
+        }
+
+        template <typename Target>
+        FnLog<E>& substitute(double val)
+        {
+            fn.template substitute<Target>(val);
+
+            return *this;
         }
 
         friend std::ostream& operator<<(std::ostream& os, const FnLog& lg)

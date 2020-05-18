@@ -120,6 +120,12 @@ namespace benzaiten
         return FnPow<Constant, E2>(Constant(cnst), static_cast<const E2&>(fn2));
     }
 
+    template <typename E>
+    FnPow<E, Constant> sqrt(const FnExpression<E>& fn)
+    {
+        return FnPow<E, Constant>(static_cast<const E&>(fn), Constant(0.5));
+    }
+
     template <typename E1>
     Constant pow(const FnExpression<E1>& fn1, const ZeroFn& zero)
     {

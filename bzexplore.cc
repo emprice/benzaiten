@@ -99,7 +99,12 @@ int main(int argc, char **argv)
     auto pwr4 = f ^ 2;
 
     std::cout << pwr4 << std::endl;
-    std::cout << pwr4.derivative<decltype(x)>() << std::endl;
+    std::cout << pwr4.derivative<decltype(x)>() << std::endl << std::endl;
+
+    auto sqt = sqrt(g);
+
+    std::cout << sqt << std::endl;
+    std::cout << sqt.derivative<decltype(z)>() << std::endl << std::endl;
 
     auto lg = log(f);
 

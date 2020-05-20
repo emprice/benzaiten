@@ -16,17 +16,24 @@ namespace benzaiten
     template <typename Wrt, size_t Order, typename E1, typename E2>
     struct FnProdDerivativeType
     {
-        static constexpr bool zero1 =
+        static constexpr bool zero1 = std::is_same<E1, ZeroFn>::value;
+        static constexpr bool zero2 = std::is_same<E2, ZeroFn>::value;
+
+        static constexpr bool dzero1 =
             std::is_same<typename E1::template deriv_type<Wrt, 1>, ZeroFn>::value;
-        static constexpr bool zero2 =
+        static constexpr bool dzero2 =
             std::is_same<typename E2::template deriv_type<Wrt, 1>, ZeroFn>::value;
+
+        static constexpr bool zero = (zero1 || zero2) ||
+            ((dzero1 && zero2) || (dzero2 && zero1)) || (dzero1 && dzero2);
 
         using type1 = FnProd<E1, typename E2::template deriv_type<Wrt, 1>>;
         using type2 = FnProd<typename E1::template deriv_type<Wrt, 1>, E2>;
 
-        using type = typename std::conditional<zero1, typename type1::template deriv_type<Wrt, Order - 1>,
-            typename std::conditional<zero2, typename type2::template deriv_type<Wrt, Order - 1>,
-                typename FnSum<type2, type1>::template deriv_type<Wrt, Order - 1>>::type>::type;
+        using type = typename std::conditional<zero, ZeroFn,
+            typename std::conditional<dzero1, typename type1::template deriv_type<Wrt, Order - 1>,
+                typename std::conditional<dzero2, typename type2::template deriv_type<Wrt, Order - 1>,
+                    typename FnSum<type2, type1>::template deriv_type<Wrt, Order - 1>>::type>::type>::type;
     };
 
     template <typename Wrt, typename E1, typename E2>

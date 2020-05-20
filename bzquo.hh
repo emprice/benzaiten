@@ -21,12 +21,12 @@ namespace benzaiten
         static constexpr bool zero2 =
             std::is_same<typename E2::template deriv_type<Wrt, 1>, ZeroFn>::value;
 
-        using type = typename std::conditional<zero1,
+        using type = typename std::conditional<zero1 && zero2, ZeroFn, typename std::conditional<zero1,
             typename FnNeg<FnQuo<FnProd<E1, typename E2::template deriv_type<Wrt, 1>>, FnProd<E2, E2>>>::template deriv_type<Wrt, Order - 1>,
             typename std::conditional<zero2,
                 typename FnQuo<typename E1::template deriv_type<Wrt, 1>, E2>::template deriv_type<Wrt, Order - 1>,
                 typename FnDiff<FnQuo<typename E1::template deriv_type<Wrt, 1>, E2>,
-                    FnQuo<FnProd<E1, typename E2::template deriv_type<Wrt, 1>>, FnProd<E2, E2>>>::template deriv_type<Wrt, Order - 1>>::type>::type;
+                    FnQuo<FnProd<E1, typename E2::template deriv_type<Wrt, 1>>, FnProd<E2, E2>>>::template deriv_type<Wrt, Order - 1>>::type>::type>::type;
     };
 
     template <typename Wrt, typename E1, typename E2>

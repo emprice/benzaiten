@@ -49,7 +49,7 @@ namespace benzaiten
         }
 
         template <typename Target>
-        FnExp<E>& subsitutte(double val)
+        FnExp<E>& substitute(double val)
         {
             fn.template substitute<Target>(val);
 

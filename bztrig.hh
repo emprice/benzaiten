@@ -56,6 +56,9 @@ namespace benzaiten
         template <typename Wrt, size_t Order>
         using deriv_type = FnSinDerivativeType<Wrt, Order, E>::type;
 
+        template <typename Src, typename Dest>
+        using replace_type = FnSin<typename E::template replace_type<Src, Dest>>;
+
         FnSin(const E& fn) : fn(fn) { }
 
         template <typename Wrt, size_t Order = 1>
@@ -76,6 +79,13 @@ namespace benzaiten
             return *this;
         }
 
+        template <typename Src, typename Dest>
+        replace_type<Src, Dest> replace(Dest dest)
+        {
+            auto newfn = fn.template replace<Src, Dest>(dest);
+            return FnSin<decltype(newfn)>(newfn);
+        }
+
         friend std::ostream& operator<<(std::ostream& os, const FnSin& sn)
         {
             os << "sin(" << sn.fn << ")";
@@ -93,6 +103,9 @@ namespace benzaiten
     {
         template <typename Wrt, size_t Order>
         using deriv_type = FnCosDerivativeType<Wrt, Order, E>::type;
+
+        template <typename Src, typename Dest>
+        using replace_type = FnCos<typename E::template replace_type<Src, Dest>>;
 
         FnCos(const E& fn) : fn(fn) { }
 
@@ -112,6 +125,13 @@ namespace benzaiten
             fn.template substitute<Target>(val);
 
             return *this;
+        }
+
+        template <typename Src, typename Dest>
+        replace_type<Src, Dest> replace(Dest dest)
+        {
+            auto newfn = fn.template replace<Src, Dest>(dest);
+            return FnCos<decltype(newfn)>(newfn);
         }
 
         friend std::ostream& operator<<(std::ostream& os, const FnCos& cs)

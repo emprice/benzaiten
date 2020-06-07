@@ -15,6 +15,9 @@ namespace benzaiten
         template <typename Wrt, size_t Order>
         using deriv_type = ZeroFn;
 
+        template <typename Src, typename Dest>
+        using replace_type = ZeroFn;
+
         double getValue() const { return 0; }
 
         template <typename Wrt, size_t Order = 1>
@@ -25,6 +28,9 @@ namespace benzaiten
 
         template <typename Target>
         ZeroFn& substitute(double val) { return *this; }
+
+        template <typename Src, typename Dest>
+        replace_type<Src, Dest> replace(Dest dest) { return *this; }
 
         friend std::ostream& operator<<(std::ostream& os, const ZeroFn& fn)
         {
@@ -37,6 +43,9 @@ namespace benzaiten
     {
         template <typename Wrt, size_t Order>
         using deriv_type = ZeroFn;
+
+        template <typename Src, typename Dest>
+        using replace_type = Constant;
 
         Constant(double value) : value(value) { }
 
@@ -58,6 +67,9 @@ namespace benzaiten
 
         template <typename Target>
         Constant& substitute(double val) { return *this; }
+
+        template <typename Src, typename Dest>
+        replace_type<Src, Dest> replace(Dest dest) { return *this; }
 
         friend std::ostream& operator<<(std::ostream& os, const Constant& cnst)
         {

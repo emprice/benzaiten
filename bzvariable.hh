@@ -26,6 +26,9 @@ namespace benzaiten
         template <typename Wrt, size_t Ord>
         using deriv_type = VarDerivativeType<Wrt, Ord, Variable<Id, Order>>::type;
 
+        template <typename Src, typename Dest>
+        using replace_type = Variable<Id, Order>;
+
         static constexpr char id = Id;
         static constexpr size_t order = Order;
 
@@ -45,6 +48,12 @@ namespace benzaiten
                 value = val;
             }
 
+            return *this;
+        }
+
+        template <typename Src, typename Dest>
+        replace_type<Src, Dest> replace(Dest dest)
+        {
             return *this;
         }
 

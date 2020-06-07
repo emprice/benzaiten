@@ -54,6 +54,10 @@ namespace benzaiten
         template <typename Wrt, size_t Order>
         using deriv_type = FnDerivativeType<Id, Wrt, Order, Args...>::type;
 
+        template <typename Src, typename Dest>
+        using replace_type =
+            std::conditional<std::is_same<Src, Fn<Id, Args...>>::value, Dest, Src>::type;
+
         template <typename Wrt, size_t Order = 1>
         deriv_type<Wrt, Order> derivative() const
         {
@@ -69,6 +73,19 @@ namespace benzaiten
             }
 
             return *this;
+        }
+
+        template <typename Src, typename Dest>
+        replace_type<Src, Dest> replace(Dest dest)
+        {
+            if constexpr (std::is_same<Src, Fn<Id, Args...>>::value)
+            {
+                return dest;
+            }
+            else
+            {
+                return *this;
+            }
         }
 
         double getValue() const { return value; }

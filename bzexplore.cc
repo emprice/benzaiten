@@ -141,7 +141,12 @@ int main(int argc, char **argv)
     auto expr2 = ((sin(x)^2) * cos(x).derivative<decltype(x)>()).derivative<decltype(x)>();
 
     std::cout << expr2 << std::endl << std::endl;
-    std::cout << expr2.substitute<decltype(x)>(2).getValue() << std::endl;
+    std::cout << expr2.substitute<decltype(x)>(2).getValue() << std::endl << std::endl;
+
+    auto expr3 = f + 2;
+
+    std::cout << expr3 << std::endl;
+    std::cout << expr3.replace<decltype(f)>(x) << std::endl;
 
     return 0;
 }

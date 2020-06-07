@@ -40,6 +40,10 @@ namespace benzaiten
         template <typename Wrt, size_t Order>
         using deriv_type = FnSumDerivativeType<Wrt, Order, E1, E2>::type;
 
+        template <typename Src, typename Dest>
+        using replace_type = FnSum<typename E1::template replace_type<Src, Dest>,
+            typename E2::template replace_type<Src, Dest>>;
+
         FnSum(const E1 fn1, const E2 &fn2) : fn1(fn1), fn2(fn2) { }
 
         template <typename Wrt, size_t Order = 1>
@@ -57,6 +61,15 @@ namespace benzaiten
             fn2.template substitute<Target>(val);
 
             return *this;
+        }
+
+        template <typename Src, typename Dest>
+        replace_type<Src, Dest> replace(Dest dest)
+        {
+            auto newfn1 = fn1.template replace<Src, Dest>(dest);
+            auto newfn2 = fn2.template replace<Src, Dest>(dest);
+
+            return FnSum<decltype(newfn1), decltype(newfn2)>(newfn1, newfn2);
         }
 
         friend std::ostream& operator<<(std::ostream& os, const FnSum& sum)

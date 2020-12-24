@@ -39,7 +39,7 @@ namespace benzaiten
     struct FnQuo : public FnExpression<FnQuo<E1, E2>>
     {
         template <typename Wrt, size_t Order>
-        using deriv_type = FnQuoDerivativeType<Wrt, Order, E1, E2>::type;
+        using deriv_type = typename FnQuoDerivativeType<Wrt, Order, E1, E2>::type;
 
         template <typename Src, typename Dest>
         using replace_type = FnQuo<typename E1::template replace_type<Src, Dest>,

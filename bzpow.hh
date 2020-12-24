@@ -43,7 +43,7 @@ namespace benzaiten
     struct FnPow : public FnExpression<FnPow<E1, E2>>
     {
         template <typename Wrt, size_t Order>
-        using deriv_type = FnPowDerivativeType<Wrt, Order, E1, E2>::type;
+        using deriv_type = typename FnPowDerivativeType<Wrt, Order, E1, E2>::type;
 
         template <typename Src, typename Dest>
         using replace_type = FnPow<typename E1::template replace_type<Src, Dest>,

@@ -46,7 +46,7 @@ namespace benzaiten
     struct FnProd : public FnExpression<FnProd<E1, E2>>
     {
         template <typename Wrt, size_t Order>
-        using deriv_type = FnProdDerivativeType<Wrt, Order, E1, E2>::type;
+        using deriv_type = typename FnProdDerivativeType<Wrt, Order, E1, E2>::type;
 
         template <typename Src, typename Dest>
         using replace_type = FnProd<typename E1::template replace_type<Src, Dest>,

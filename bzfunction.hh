@@ -52,11 +52,11 @@ namespace benzaiten
         static constexpr char id = Id;
 
         template <typename Wrt, size_t Order>
-        using deriv_type = FnDerivativeType<Id, Wrt, Order, Args...>::type;
+        using deriv_type = typename FnDerivativeType<Id, Wrt, Order, Args...>::type;
 
         template <typename Src, typename Dest>
         using replace_type =
-            std::conditional<std::is_same<Src, Fn<Id, Args...>>::value, Dest, Src>::type;
+            typename std::conditional<std::is_same<Src, Fn<Id, Args...>>::value, Dest, Src>::type;
 
         template <typename Wrt, size_t Order = 1>
         deriv_type<Wrt, Order> derivative() const

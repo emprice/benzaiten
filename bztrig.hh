@@ -54,7 +54,7 @@ namespace benzaiten
     struct FnSin : public FnExpression<FnSin<E>>
     {
         template <typename Wrt, size_t Order>
-        using deriv_type = FnSinDerivativeType<Wrt, Order, E>::type;
+        using deriv_type = typename FnSinDerivativeType<Wrt, Order, E>::type;
 
         template <typename Src, typename Dest>
         using replace_type = FnSin<typename E::template replace_type<Src, Dest>>;
@@ -102,7 +102,7 @@ namespace benzaiten
     struct FnCos : public FnExpression<FnCos<E>>
     {
         template <typename Wrt, size_t Order>
-        using deriv_type = FnCosDerivativeType<Wrt, Order, E>::type;
+        using deriv_type = typename FnCosDerivativeType<Wrt, Order, E>::type;
 
         template <typename Src, typename Dest>
         using replace_type = FnCos<typename E::template replace_type<Src, Dest>>;

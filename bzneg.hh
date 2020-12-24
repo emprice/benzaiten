@@ -18,7 +18,7 @@ namespace benzaiten
         static constexpr bool zero =
             std::is_same<typename E::template deriv_type<Wrt, Order>, ZeroFn>::value;
 
-        using type = std::conditional<zero,
+        using type = typename std::conditional<zero,
             ZeroFn, FnNeg<typename E::template deriv_type<Wrt, Order>>>::type;
     };
 
@@ -26,7 +26,7 @@ namespace benzaiten
     struct FnNeg : public FnExpression<FnNeg<E>>
     {
         template <typename Wrt, size_t Order>
-        using deriv_type = FnNegDerivativeType<Wrt, Order, E>::type;
+        using deriv_type = typename FnNegDerivativeType<Wrt, Order, E>::type;
 
         template <typename Src, typename Dest>
         using replace_type = FnNeg<typename E::template replace_type<Src, Dest>>;

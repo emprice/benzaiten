@@ -24,7 +24,7 @@ namespace benzaiten
     struct Variable : public FnExpression<Variable<Id, Order>>
     {
         template <typename Wrt, size_t Ord>
-        using deriv_type = VarDerivativeType<Wrt, Ord, Variable<Id, Order>>::type;
+        using deriv_type = typename VarDerivativeType<Wrt, Ord, Variable<Id, Order>>::type;
 
         template <typename Src, typename Dest>
         using replace_type = Variable<Id, Order>;

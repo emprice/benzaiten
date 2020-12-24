@@ -21,7 +21,7 @@ namespace benzaiten
         static constexpr bool zero2 =
             std::is_same<typename E2::template deriv_type<Wrt, Order>, ZeroFn>::value;
 
-        using type = std::conditional<zero1,
+        using type = typename std::conditional<zero1,
             FnNeg<typename E2::template deriv_type<Wrt, Order>>,
             typename std::conditional<zero2,
             typename E1::template deriv_type<Wrt, Order>,
@@ -33,7 +33,7 @@ namespace benzaiten
     struct FnDiff : public FnExpression<FnDiff<E1, E2>>
     {
         template <typename Wrt, size_t Order>
-        using deriv_type = FnDiffDerivativeType<Wrt, Order, E1, E2>::type;
+        using deriv_type = typename FnDiffDerivativeType<Wrt, Order, E1, E2>::type;
 
         template <typename Src, typename Dest>
         using replace_type = FnDiff<typename E1::template replace_type<Src, Dest>,

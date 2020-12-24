@@ -34,7 +34,7 @@ namespace benzaiten
     struct FnLog : public FnExpression<FnLog<E>>
     {
         template <typename Wrt, size_t Order>
-        using deriv_type = FnLogDerivativeType<Wrt, Order, E>::type;
+        using deriv_type = typename FnLogDerivativeType<Wrt, Order, E>::type;
 
         template <typename Src, typename Dest>
         using replace_type = FnLog<typename E::template replace_type<Src, Dest>>;

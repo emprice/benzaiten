@@ -34,7 +34,7 @@ namespace benzaiten
     struct FnExp : public FnExpression<FnExp<E>>
     {
         template <typename Wrt, size_t Order>
-        using deriv_type = FnExpDerivativeType<Wrt, Order, E>::type;
+        using deriv_type = typename FnExpDerivativeType<Wrt, Order, E>::type;
 
         template <typename Src, typename Dest>
         using replace_type = FnExp<typename E::template replace_type<Src, Dest>>;

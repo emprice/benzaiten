@@ -74,6 +74,11 @@ namespace benzaiten
 
         double getValue() const { return std::log(fn.getValue()); }
 
+        void resetValue()
+        {
+            fn.resetValue();
+        }
+
         private:
             E fn;
     };

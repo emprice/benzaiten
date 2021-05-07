@@ -5,6 +5,8 @@
 
 #include <cstddef>
 #include <ostream>
+#include <sstream>
+#include <optional>
 
 namespace benzaiten
 {
@@ -57,7 +59,26 @@ namespace benzaiten
             return *this;
         }
 
-        double getValue() const { return value; }
+        double getValue() const
+        {
+#ifdef NDEBUG
+            return value.value_or(0.);
+#else
+            if (!value.has_value())
+            {
+                std::ostringstream oss;
+                oss << "forgot to set value: " << typeid(this).name();
+                throw std::runtime_error(oss.str());
+            }
+
+            return *value;
+#endif
+        }
+
+        void resetValue()
+        {
+            value.reset();
+        }
 
         friend std::ostream& operator<<(std::ostream& os, const Variable &var)
         {
@@ -66,7 +87,7 @@ namespace benzaiten
         }
 
         private:
-            double value;
+            std::optional<double> value;
     };
 }
 

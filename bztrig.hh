@@ -94,6 +94,11 @@ namespace benzaiten
 
         double getValue() const { return std::sin(fn.getValue()); }
 
+        void resetValue()
+        {
+            fn.resetValue();
+        }
+
         private:
             E fn;
     };
@@ -141,6 +146,11 @@ namespace benzaiten
         }
 
         double getValue() const { return std::cos(fn.getValue()); }
+
+        void resetValue()
+        {
+            fn.resetValue();
+        }
 
         private:
             E fn;

@@ -84,6 +84,12 @@ namespace benzaiten
 
         double getValue() const { return fn1.getValue() / fn2.getValue(); }
 
+        void resetValue()
+        {
+            fn1.resetValue();
+            fn2.resetValue();
+        }
+
         private:
             E1 fn1;
             E2 fn2;

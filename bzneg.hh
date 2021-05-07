@@ -62,6 +62,11 @@ namespace benzaiten
 
         double getValue() const { return -fn.getValue(); }
 
+        void resetValue()
+        {
+            fn.resetValue();
+        }
+
         private:
             E fn;
     };
